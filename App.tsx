@@ -1,7 +1,7 @@
+import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { JSXElementConstructor } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, ScrollView, StyleSheet, Text, View,FlatList } from 'react-native';
 
 
 const UserComponent = ()=>{
@@ -11,13 +11,35 @@ const UserComponent = ()=>{
           <Text style={styles.userName}> Login : Hamza Boulman</Text>
           <Text style={styles.userFolowers}>Nombre folowers : 200 </Text>
           </View>
-          <Button title="voir Details"></Button>
+          {/* <Button title="voir Details"></Button> */}
          
     </View>
   );
 }
 
 export default function App() {
+
+const [users , setUsers] = useState([])
+const [loading , setLoading] = useState(true)
+
+useEffect(() => {
+  const getUsers = async () => {
+    try {
+      await axios.get("https://api.github.com/users")
+      .then(res => {
+          setUsers(res.data)
+          setLoading(true);
+      })
+
+            } catch (error) {
+        console.log(error);
+    }
+    setLoading(false)
+} 
+getUsers();
+}, []) 
+
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}
@@ -30,9 +52,11 @@ export default function App() {
       </ScrollView>
       <Text>Hamza Boulman Khadija Majid Kharrachi Khayya</Text>
       <StatusBar style="auto" />
+
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
