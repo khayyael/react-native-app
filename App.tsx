@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, View,FlatList } from 'react-native';
 
 
-const UserComponent = ()=>{
+const UserComponent = ({user}:{user:any})=>{
   return(
     <View style={styles.user}>
           <View style={styles.viewUserName}>
-          <Text style={styles.userName}> Login : Hamza Boulman</Text>
-          <Text style={styles.userFolowers}>Nombre folowers : 200 </Text>
+          <Text style={styles.userName}> Login : {user.login}</Text>
+          <Text style={styles.userFolowers}>Nombre folowers : 100 </Text>
           </View>
-          {/* <Button title="voir Details"></Button> */}
+          <Button title="voir Details"></Button>
          
     </View>
   );
@@ -19,7 +19,7 @@ const UserComponent = ()=>{
 
 export default function App() {
 
-const [users , setUsers] = useState([])
+const [users , setUsers] = useState<any[]>([])
 const [loading , setLoading] = useState(true)
 
 useEffect(() => {
@@ -44,11 +44,9 @@ getUsers();
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}
   showsHorizontalScrollIndicator={false}>
-      <UserComponent/>
-      <UserComponent/>
-      <UserComponent/>
-      <UserComponent/>
-      <UserComponent/>
+      {users?.map((user)=>(
+        <UserComponent user={user} key={user.login}/>
+      ))}
       </ScrollView>
       <Text>Hamza Boulman Khadija Majid Kharrachi Khayya</Text>
       <StatusBar style="auto" />
