@@ -1,20 +1,152 @@
-import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {View, Text, Button} from 'react-native';
-import { StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types';
-import { RootStackParamList } from './RootStackPrams';
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 
+export default class Users extends React.Component <any, any> {
 
-type mainScreenProp = StackNavigationProp<RootStackParamList, 'Main'>;
+  constructor(props:any) {
+    super(props);
+    this.state = {
+      data: [
 
-function MainScreen() {
-  const navigation = useNavigation<mainScreenProp>();
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Main Screen</Text>
-      <Button title="Login" onPress={() => navigation.navigate('Auth')} />
-    </View>
-  );
+        {id:1, name: "John Doe",   position:"CTO", image:"https://bootdey.com/img/Content/avatar/avatar1.png", nambre:"kjhas"},
+       
+        
+      ]
+    };
+  }
+
+  clickEventListener(item:any) {
+    Alert.alert(item.name)
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <FlatList style={styles.list}
+          contentContainerStyle={styles.listContainer}
+          data={this.state.data}
+          horizontal={false}
+          numColumns={2}
+          keyExtractor= {(item) => {
+            return item.id;
+          }}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item)}}>
+                <View style={styles.cardHeader}>
+                  <Image style={styles.icon} source={{uri:"https://img.icons8.com/flat_round/64/000000/hearts.png"}}/>
+                </View>
+                <Image style={styles.userImage} source={{uri:item.image}}/>
+                <View style={styles.cardFooter}>
+                  <View style={{alignItems:"center", justifyContent:"center"}}>
+                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={styles.name}>{item.position}</Text>
+                    <Text style={styles.name}>{item.position}</Text>
+
+                    <TouchableOpacity style={styles.followButton} onPress={()=> this.clickEventListener(item)}>
+                      <Text style={styles.followButtonText}>Follow</Text>  
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )
+          }}/>
+      </View>
+    );
+  }
 }
 
-export default MainScreen;
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    marginTop:40,
+    marginLeft:300
+  },
+  list: {
+    paddingHorizontal: 5,
+   
+  },
+  listContainer:{
+   alignItems:'center'
+  },
+  /******** card **************/
+  card:{
+    shadowColor: '#00000021',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+
+    marginVertical: 5,
+    backgroundColor:"white",
+    flexBasis: '46%',
+    marginHorizontal: 20,
+  },
+  cardFooter: {
+    paddingVertical: 17,
+    paddingHorizontal: 16,
+    borderTopLeftRadius: 1,
+    borderTopRightRadius: 1,
+    flexDirection: 'row',
+    alignItems:"center", 
+    justifyContent:"center"
+  },
+  cardContent: {
+    paddingVertical: 12.5,
+    paddingHorizontal: 16,
+  },
+  cardHeader:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12.5,
+    paddingBottom: 25,
+    paddingHorizontal: 300,
+    borderBottomLeftRadius: 1,
+    borderBottomRightRadius: 1,
+  },
+  userImage:{
+    height: 120,
+    width: 120,
+    borderRadius:60,
+    alignSelf:'center',
+    borderColor:"#DCDCDC",
+    borderWidth:3,
+  },
+  name:{
+    fontSize:18,
+    flex:1,
+    color:"#008080",
+    fontWeight:'bold'
+  },
+  followButton: {
+    marginTop:10,
+    height:35,
+    width:100,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:30,
+    backgroundColor: "#00BFFF",
+  },
+  followButtonText:{
+    color: "#FFFFFF",
+    fontSize:20,
+  },
+  icon:{
+    height: 20,
+    width: 20, 
+    marginRight:100
+  }
+});    

@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import { RootStackParamList } from './RootStackPrams';
 import { StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types';
-import { useNavigation } from '@react-navigation/native';
 
 type authScreenProp = StackNavigationProp<RootStackParamList, 'Auth'>;
 
