@@ -9,7 +9,7 @@ const UserComponent = ({user}:{user:any})=>{
     <View style={styles.user}>
           <View style={styles.viewUserName}>
           <Text style={styles.userName}> Login : {user.login}</Text>
-          <Text style={styles.userFolowers}>Nombre folowers : 100 </Text>
+          <Text style={styles.userFolowers}>Nombre folowers : {user.countFollowers} </Text>
           </View>
           <Button title="voir Details"></Button>
          
@@ -21,20 +21,33 @@ export default function App() {
 
 const [users , setUsers] = useState<any[]>([])
 const [loading , setLoading] = useState(true)
-
+const [final , setFinal] = useState(false)
 useEffect(() => {
   const getUsers = async () => {
     try {
       await axios.get("https://api.github.com/users")
-      .then(res => {
-          setUsers(res.data)
-          setLoading(true);
+      .then(async res => {
+        
+          for(let user of res.data)
+          {
+            await axios.get(user.followers_url)
+            .then(response => {
+                
+                user.countFollowers = response.data.length
+            })
+            setFinal(true)            
+            
+          }
+          
+          
+            setUsers(res.data)
+          
+          setLoading(false)
       })
 
             } catch (error) {
         console.log(error);
     }
-    setLoading(false)
 } 
 getUsers();
 }, []) 
@@ -48,7 +61,6 @@ getUsers();
         <UserComponent user={user} key={user.login}/>
       ))}
       </ScrollView>
-      <Text>Hamza Boulman Khadija Majid Kharrachi Khayya</Text>
       <StatusBar style="auto" />
 
     </View>
