@@ -1,8 +1,5 @@
-import React , { Component, useEffect, useState } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet,Image,} from 'react-native';
-import { RootStackParamList } from './RootStackPrams';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet,Image, View,Text,TouchableOpacity} from 'react-native';
 import axios from 'axios';
 
 
@@ -14,12 +11,8 @@ function AuthScreen({ navigation, route }:{route:any , navigation:any}) {
   useEffect(() => {
     const getFollowing = async () => {
       try {
-        await axios.get("https://api.github.com/users/"+route.params.user.login+"/following",{
-          auth: {
-          username: 'khayyael',
-          password: 'L949xNnxTe9dHjq'
-      }
-        })
+        await axios.get("https://api.github.com/users/"+route.params.user.login+"/following"
+        )
         .then( res => {
               setFollowing(res.data.length)
               setLoading(false)
@@ -66,6 +59,7 @@ const styles = StyleSheet.create({
   header:{
     backgroundColor: "#226988",
   },
+  container:{},
   headerContent:{
     padding:30,
     alignItems: 'center',

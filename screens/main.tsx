@@ -31,12 +31,7 @@ const [final , setFinal] = useState(false)
 useEffect(() => {
   const getUsers = async () => {
     try {
-      await axios.get("https://api.github.com/users" , {
-        auth: {
-          username: 'khayyael',
-          password: 'L949xNnxTe9dHjq'
-      }
-      })
+      await axios.get("https://api.github.com/users")
       .then(async res => {
         
           for(let user of res.data)

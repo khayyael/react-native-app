@@ -1,8 +1,5 @@
 import React , { Component, useEffect, useState } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet,Image, FlatList, TextInput,} from 'react-native';
-import { RootStackParamList } from './RootStackPrams';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types';
+import {View, Text, StyleSheet,Image, FlatList, TextInput,} from 'react-native';
 import axios from 'axios';
 
 
@@ -14,12 +11,7 @@ function FollowingScreen({ navigation, route }:{route:any , navigation:any}) {
   useEffect(() => {
     const getFollowing = async () => {
       try {
-        await axios.get("https://api.github.com/users/"+route.params.user+"/following",{
-          auth: {
-            username: 'khayyael',
-            password: 'L949xNnxTe9dHjq'
-        }
-        })
+        await axios.get("https://api.github.com/users/"+route.params.user+"/following")
         .then( res => {
               setFollowing(res.data)
               setLoading(false)
