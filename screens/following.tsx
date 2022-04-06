@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function FollowingScreen({ navigation, route }:{route:any , navigation:any}) {
 
-  const [following , setFollowing] = useState([])
+  const [following , setFollowing] = useState([] as any)
   const [loading , setLoading] = useState(true)
 
   useEffect(() => {
