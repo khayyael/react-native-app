@@ -15,10 +15,6 @@ function FollowingScreen({ navigation, route }:{route:any , navigation:any}) {
     const getFollowing = async () => {
       try {
         await axios.get("https://api.github.com/users/"+route.params.user+"/following",{
-          auth: {
-            username: 'khayyael',
-            password: 'L949xNnxTe9dHjq'
-        }
         })
         .then( res => {
               setFollowing(res.data)

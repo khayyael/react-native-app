@@ -32,10 +32,7 @@ useEffect(() => {
   const getUsers = async () => {
     try {
       await axios.get("https://api.github.com/users" , {
-        auth: {
-          username: 'khayyael',
-          password: 'L949xNnxTe9dHjq'
-      }
+        
       })
       .then(async res => {
         
