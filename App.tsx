@@ -1,69 +1,35 @@
 import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View,FlatList } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { RootStackParamList } from './screens/RootStackPrams';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MainScreen from './screens/main';
+import AuthScreen from './screens/auth';
+import FollowingScreen from './screens/following';
 
 
-const UserComponent = ({user}:{user:any})=>{
-  return(
-    <View style={styles.user}>
-          <View style={styles.viewUserName}>
-          <Text style={styles.userName}> Login : {user.login}</Text>
-          <Text style={styles.userFolowers}>Nombre folowers : {user.countFollowers} </Text>
-          </View>
-          <Button title="voir Details"></Button>
-         
-    </View>
-  );
-}
 
 export default function App() {
 
-const [users , setUsers] = useState<any[]>([])
-const [loading , setLoading] = useState(true)
-const [final , setFinal] = useState(false)
-useEffect(() => {
-  const getUsers = async () => {
-    try {
-      await axios.get("https://api.github.com/users")
-      .then(async res => {
-        
-          for(let user of res.data)
-          {
-            await axios.get(user.followers_url)
-            .then(response => {
-                
-                user.countFollowers = response.data.length
-            })
-            setFinal(true)            
-            
-          }
-          
-          
-            setUsers(res.data)
-          
-          setLoading(false)
-      })
-
-            } catch (error) {
-        console.log(error);
-    }
-} 
-getUsers();
-}, []) 
-
-
+  const Stack = createNativeStackNavigator();
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}
-  showsHorizontalScrollIndicator={false}>
-      {users?.map((user)=>(
-        <UserComponent user={user} key={user.login}/>
-      ))}
-      </ScrollView>
-      <StatusBar style="auto" />
+    
+    <NavigationContainer>
 
-    </View>
+      <Stack.Navigator>
+      <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{ title: 'main' }}
+        />
+        <Stack.Screen name="Profile" component={AuthScreen} />
+
+        <Stack.Screen name="Following" component={FollowingScreen} />
+
+    </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -107,3 +73,4 @@ const styles = StyleSheet.create({
     marginBottom:20
   }
 });
+
